@@ -1,0 +1,101 @@
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+
+apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.neenbedankt.android-apt'
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "pl.casimir.casimir"
+        minSdkVersion 19
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+apply plugin: 'com.neenbedankt.android-apt'
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile "javax.annotation:jsr250-api:$jsr_annotation_version"
+
+    //Support
+    compile "com.android.support:appcompat-v7:$support_version"
+    compile "com.android.support:support-annotations:$support_version"
+    compile "com.android.support:design:$support_version"
+    compile "com.android.support:cardview-v7:$support_version"
+
+    //helpers
+    provided "org.projectlombok:lombok:$lombok_version"
+    apt "org.projectlombok:lombok:$lombok_version"
+    compile "com.jakewharton:butterknife:$butterknife_version"
+    apt "com.jakewharton:butterknife-compiler:$butterknife_version"
+    compile "com.squareup.picasso:picasso:$picasso_version"
+    compile "com.jakewharton.picasso:picasso2-okhttp3-downloader:$picasso_okhttp_downloader_version"
+
+    //rx
+    compile "io.reactivex.rxjava2:rxjava:$rx_java"
+    compile "io.reactivex.rxjava2:rxandroid:$rx_android"
+    compile "com.jakewharton.rxbinding:rxbinding-appcompat-v7:$rx_bindings"
+
+    //network
+    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    compile "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
+    compile "com.squareup.okhttp3:logging-interceptor:$logging_interceptor_version"
+
+    //dagger
+    compile "com.google.dagger:dagger:$daggerVersion"
+    apt "com.google.dagger:dagger-compiler:$daggerVersion"
+    provided "javax.annotation:jsr250-api:$jsr_annotation_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+
+//TEST
+    testCompile "junit:junit:$junit_version"
+    testCompile "org.mockito:mockito-core:$mockito_version"
+    androidTestCompile "com.android.support:support-annotations:$support_version"
+//    androitTestCompile "com.android.support:appcompat-v7:$support_version"
+//    androitTestCompile "com.android.support:design:$support_version"
+    androidTestCompile "com.android.support:support-annotations:$support_version"
+//    androidTestCompile "com.android.support.test.espresso:espresso-core:$espresso_version"
+//    androidTestCompile("com.android.support.test.espresso:espresso-contrib:$espresso_version")
+//            {
+//                exclude group: 'com.android.support', module: 'appcompat'
+//                exclude group: 'com.android.support', module: 'support-v4'
+//                exclude module: 'recyclerview-v7'
+//            }
+    androidTestCompile "com.android.support.test:runner:$testrunner_version"
+    androidTestCompile "com.android.support.test:rules:$testrunner_version"
+    androidTestCompile "org.mockito:mockito-core:$mockito_version"
+    androidTestCompile "com.google.dexmaker:dexmaker:$dexmarker_version"
+    androidTestCompile "com.google.dexmaker:dexmaker-mockito:$dexmarker_version"
+    androidTestApt "com.google.dagger:dagger-compiler:$daggerVersion"
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+}

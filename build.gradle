@@ -1,0 +1,57 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+
+    ext.support_version = '25.1.1'
+
+
+    ext.rx_java = '2.0.6'
+    ext.rx_android = '2.0.1'
+    ext.rx_bindings = '0.4.0'
+
+    ext.daggerVersion = '2.8'
+    ext.butterknife_version = '8.5.1'
+    ext.jsr_annotation_version = '1.0'
+
+    ext.lombok_version='1.16.10'
+
+    ext.retrofitVersion = '2.1.0'
+    ext.gson_converter_version = '2.0.2'
+    ext.rxadapter_version = '2.0.2'
+    ext.logging_interceptor_version = '3.5.0'
+
+    ext.picasso_version = '2.5.2'
+    ext.picasso_okhttp_downloader_version = '1.0.2'
+
+    ext.maps_version='10.2.0'
+
+    //TEST
+    ext.espresso_version = '2.2.2'
+    ext.junit_version = '4.12'
+    ext.mockito_version = '1.10.19'
+    ext.dexmarker_version = '1.2'
+    ext.testrunner_version = '0.5'
+
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'me.tatarka:gradle-retrolambda:3.3.1'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
