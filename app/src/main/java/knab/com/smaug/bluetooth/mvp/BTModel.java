@@ -1,8 +1,5 @@
 package knab.com.smaug.bluetooth.mvp;
 
-import android.Manifest;
-import android.os.Build;
-
 import javax.inject.Inject;
 
 import knab.com.smaug.bluetooth.bluetooth_facade.BluetoothFacade;
@@ -20,6 +17,7 @@ public class BTModel implements BluetoothMVP.Model {
     public BTModel(BluetoothFacade bluetoothFacade){
         this.bluetoothFacade = bluetoothFacade;
     }
+
     public boolean bluetoothEnableDisable() {
         if(bluetoothFacade.getBluetoothAdapter().isEnabled()){
             disableBluetoothAdapter();
@@ -40,8 +38,11 @@ public class BTModel implements BluetoothMVP.Model {
         else{
             bluetoothFacade.getBluetoothAdapter().startDiscovery();
         }
+    }
 
-
+    @Override
+    public void cancelDiscovering() {
+        bluetoothFacade.getBluetoothAdapter().cancelDiscovery();
     }
 
     public void disableBluetoothAdapter(){

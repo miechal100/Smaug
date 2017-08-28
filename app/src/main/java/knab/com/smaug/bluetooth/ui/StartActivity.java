@@ -2,19 +2,14 @@ package knab.com.smaug.bluetooth.ui;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,10 +18,10 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import knab.com.smaug.SmaugApplication;
 import knab.com.smaug.R;
-import knab.com.smaug.bluetooth.mvp.BluetoothMVP;
+import knab.com.smaug.SmaugApplication;
 import knab.com.smaug.bluetooth.mvp.BTPresenter;
+import knab.com.smaug.bluetooth.mvp.BluetoothMVP;
 import knab.com.smaug.data.data.MainActivity;
 
 public class StartActivity extends AppCompatActivity implements BluetoothMVP.View{
@@ -64,25 +59,26 @@ public class StartActivity extends AppCompatActivity implements BluetoothMVP.Vie
         lvNewDevices.setOnItemClickListener((adapter, view, position, id)->pairDevices(position));
     }
 
-    private void pairDevices(int i) {
-        String deviceName = bluetoothDevicesList.get(i).getName();
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.destroy();
+        unregisterReceiver(presenter.discoveredDevicesReceiver);
+        unregisterReceiver(presenter.bondingDevicesReceiver);
+    }
 
-        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2){
-          bluetoothDevicesList.get(i).createBond();
-        }
-        Toast.makeText(this, "Jesteś połączony z " + deviceName, Toast.LENGTH_SHORT).show();
+    private void pairDevices(int position) {
+
+        bluetoothDevicesList.get(position).createBond();
 
         IntentFilter pairingDevicesIntent = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
-        registerReceiver(receivingBondingDevicesBroadcast, pairingDevicesIntent);
+        registerReceiver(presenter.bondingDevicesReceiver, pairingDevicesIntent);
     }
 
     @Override
     public void enableBT() {
-         //   Intent enableBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-           // startActivity(enableBTIntent);
-        Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 308);
-        startActivity(discoverableIntent);
+        Intent enableBTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        startActivity(enableBTIntent);
         Log.d(TAG, "bluetooth enabled");
     }
 
@@ -99,59 +95,26 @@ public class StartActivity extends AppCompatActivity implements BluetoothMVP.Vie
 
     @Override
     public void discoverDevices() {
-
+        if(deviceListAdapter != null)
+            deviceListAdapter.clear();
         IntentFilter btDiscoverIntent = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        registerReceiver(broadcastReceiver, btDiscoverIntent);
+        registerReceiver(presenter.discoveredDevicesReceiver, btDiscoverIntent);
 
     }
 
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
+    @Override
+    public void listDevices(Context context, BluetoothDevice device) {
+        bluetoothDevicesList.add(device);
+        deviceListAdapter = new DeviceListAdapter(context, R.layout.device_adapter_view, bluetoothDevicesList);
+        lvNewDevices.setAdapter(deviceListAdapter);
+    }
 
-            Log.d(TAG, "Action found");
-
-            if(action.equals(BluetoothDevice.ACTION_FOUND)){
-
-
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                bluetoothDevicesList.add(device);
-
-                deviceListAdapter = new DeviceListAdapter(context, R.layout.device_adapter_view, bluetoothDevicesList);
-                lvNewDevices.setAdapter(deviceListAdapter);
-
-            }
-        }
-    };
-
-    private BroadcastReceiver receivingBondingDevicesBroadcast = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-
-            if(action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)){
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-
-                if(device.getBondState() == BluetoothDevice.BOND_BONDED){
-                    Log.d(TAG, "JEsteś połączony");
-                    startNextActivity(device);
-                }
-                if(device.getBondState() == BluetoothDevice.BOND_BONDING){
-                    Log.d(TAG, "łączysz się");
-                }
-                if(device.getBondState() == BluetoothDevice.BOND_NONE){
-                    Log.d(TAG, "Brak Połączenia");
-                }
-            }
-        }
-    };
-
-    private void startNextActivity(BluetoothDevice device) {
+    @Override
+    public void startNextActivity(BluetoothDevice device) {
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("Paired device", device);
         startActivity(intent);
-
+        this.finish();
     }
 }

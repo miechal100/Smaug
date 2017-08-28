@@ -10,6 +10,7 @@ public class BluetoothFacade {
 
     private BluetoothAdapter bluetoothAdapter;
 
+
     public BluetoothFacade(BluetoothAdapter bluetoothAdapter){
         this.bluetoothAdapter = bluetoothAdapter;
     }
