@@ -1,10 +1,7 @@
 package knab.com.smaug.bluetooth.mvp;
 
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-
-import java.util.ArrayList;
 
 /**
  * Created by hp on 2017-07-27.
@@ -30,6 +27,6 @@ public interface BluetoothMVP {
     interface Presenter{
         void btEnableDisable();
         void btEnableDiscovering();
-        void destroy();
+        void onDestroy();
     }
 }

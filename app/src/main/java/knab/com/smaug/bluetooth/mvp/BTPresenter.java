@@ -37,32 +37,6 @@ public class BTPresenter implements BluetoothMVP.Presenter{
         view.discoverDevices();
     }
 
-    public BroadcastReceiver bondingDevicesReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-
-
-
-            if(action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)){
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                String deviceName = device.getName();
-                switch (device.getBondState()) {
-                    case BluetoothDevice.BOND_BONDED:
-                        Log.d(TAG, "You are connected with " + deviceName);
-                        view.startNextActivity(device);
-                        break;
-                    case BluetoothDevice.BOND_BONDING:
-                        Log.d(TAG, "connecting...");
-                        break;
-                    case BluetoothDevice.BOND_NONE:
-                        Log.d(TAG, "error, no connection");
-                        break;
-                }
-            }
-        }
-    };
-
     public BroadcastReceiver discoveredDevicesReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -78,8 +52,33 @@ public class BTPresenter implements BluetoothMVP.Presenter{
         }
     };
 
+    public BroadcastReceiver bondingDevicesReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+
+            Log.d(TAG, "Action found");
+
+            if(action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)){
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                String deviceName = device.getName();
+                switch (device.getBondState()) {
+                    case BluetoothDevice.BOND_BONDED:
+                        Log.d(TAG, "You are connected with " + deviceName);
+                        break;
+                    case BluetoothDevice.BOND_BONDING:
+                        Log.d(TAG, "connecting...");
+                        break;
+                    case BluetoothDevice.BOND_NONE:
+                        Log.d(TAG, "error, no connection");
+                        break;
+                }
+            }
+        }
+    };
+
     @Override
-    public void destroy() {
+    public void onDestroy() {
         model.cancelDiscovering();
     }
 }

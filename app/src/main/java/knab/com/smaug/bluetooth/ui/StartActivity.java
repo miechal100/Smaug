@@ -62,14 +62,23 @@ public class StartActivity extends AppCompatActivity implements BluetoothMVP.Vie
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.destroy();
+        presenter.onDestroy();
         unregisterReceiver(presenter.discoveredDevicesReceiver);
         unregisterReceiver(presenter.bondingDevicesReceiver);
     }
 
     private void pairDevices(int position) {
 
-        bluetoothDevicesList.get(position).createBond();
+        BluetoothDevice device = bluetoothDevicesList.get(position);
+
+        if(device.getName() == "HC-05"){
+            if(!device.createBond());
+            startNextActivity(device);
+        }
+        else{
+            Log.d(TAG, "Błąd - sprawdź swoje urządzenie bluetooth HC-05");
+            this.finish();
+        }
 
         IntentFilter pairingDevicesIntent = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         registerReceiver(presenter.bondingDevicesReceiver, pairingDevicesIntent);
@@ -91,6 +100,7 @@ public class StartActivity extends AppCompatActivity implements BluetoothMVP.Vie
     public void error() {
         Log.d(TAG, "bluetooth not available");
         Toast.makeText(this, "bluetooth is not avaliable", Toast.LENGTH_SHORT).show();
+        this.finish();
     }
 
     @Override
