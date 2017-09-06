@@ -37,6 +37,11 @@ public class BTPresenter implements BluetoothMVP.Presenter{
         view.discoverDevices();
     }
 
+    @Override
+    public void onDestroy() {
+        model.cancelDiscovering();
+    }
+
     public BroadcastReceiver discoveredDevicesReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -65,6 +70,7 @@ public class BTPresenter implements BluetoothMVP.Presenter{
                 switch (device.getBondState()) {
                     case BluetoothDevice.BOND_BONDED:
                         Log.d(TAG, "You are connected with " + deviceName);
+                        view.startNextActivity(device);
                         break;
                     case BluetoothDevice.BOND_BONDING:
                         Log.d(TAG, "connecting...");
@@ -76,9 +82,4 @@ public class BTPresenter implements BluetoothMVP.Presenter{
             }
         }
     };
-
-    @Override
-    public void onDestroy() {
-        model.cancelDiscovering();
-    }
 }
