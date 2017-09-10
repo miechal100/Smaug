@@ -3,7 +3,7 @@ package knab.com.smaug.transmition.dagger;
 import dagger.Component;
 import knab.com.smaug.dagger.ActivityScope;
 import knab.com.smaug.dagger.SmaugComponent;
-import knab.com.smaug.transmition.TransmitionActivity;
+import knab.com.smaug.transmition.ui.TransmitionActivity;
 
 /**
  * Created by hp on 2017-09-08.

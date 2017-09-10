@@ -22,7 +22,7 @@ import knab.com.smaug.R;
 import knab.com.smaug.SmaugApplication;
 import knab.com.smaug.bluetooth.mvp.BTPresenter;
 import knab.com.smaug.bluetooth.mvp.BluetoothMVP;
-import knab.com.smaug.transmition.TransmitionActivity;
+import knab.com.smaug.transmition.ui.TransmitionActivity;
 
 public class StartActivity extends AppCompatActivity implements BluetoothMVP.View{
 

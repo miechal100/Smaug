@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="knab.com.smaug.transmition.TransmitionActivity"
+    tools:context="knab.com.smaug.transmition.ui.TransmitionActivity"
     tools:showIn="@layout/activity_transmition2">
 
 </android.support.constraint.ConstraintLayout>

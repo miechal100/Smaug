@@ -6,7 +6,7 @@ import knab.com.smaug.SmaugApplication;
 import knab.com.smaug.bluetooth.ui.StartActivity;
 import knab.com.smaug.bluetooth.dagger.DaggerStartComponent;
 import knab.com.smaug.bluetooth.dagger.StartModule;
-import knab.com.smaug.transmition.TransmitionActivity;
+import knab.com.smaug.transmition.ui.TransmitionActivity;
 import knab.com.smaug.transmition.dagger.DaggerTransmitionComponent;
 import knab.com.smaug.transmition.dagger.TransmitionModule;
 
