@@ -22,7 +22,7 @@ import knab.com.smaug.R;
 import knab.com.smaug.SmaugApplication;
 import knab.com.smaug.bluetooth.mvp.BTPresenter;
 import knab.com.smaug.bluetooth.mvp.BluetoothMVP;
-import knab.com.smaug.data.data.MainActivity;
+import knab.com.smaug.transmition.TransmitionActivity;
 
 public class StartActivity extends AppCompatActivity implements BluetoothMVP.View{
 
@@ -122,7 +122,7 @@ public class StartActivity extends AppCompatActivity implements BluetoothMVP.Vie
     @Override
     public void startNextActivity(BluetoothDevice device) {
 
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, TransmitionActivity.class);
         intent.putExtra("Paired device", device);
         startActivity(intent);
         this.finish();

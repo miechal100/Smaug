@@ -29,6 +29,10 @@
         <activity
             android:name=".data.data.MainActivity"
             android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".transmition.TransmitionActivity"
+            android:label="@string/title_activity_transmition"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
