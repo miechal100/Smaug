@@ -1,5 +1,6 @@
 package knab.com.smaug.transmition.ui;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -13,15 +14,20 @@ import knab.com.smaug.transmition.mvp.TransmitionMVP;
 
 public class TransmitionActivity extends AppCompatActivity implements TransmitionMVP.View {
 
-   @Inject
-   TPresenter presenter;
+    @Inject
+    TPresenter presenter;
+
+    private ProgressDialog connectionProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transmition2);
 
-      ((SmaugApplication)getApplication()).getInjector().inject(this);
+        ((SmaugApplication)getApplication()).getInjector().inject(this);
+
     }
+
+
 
 }

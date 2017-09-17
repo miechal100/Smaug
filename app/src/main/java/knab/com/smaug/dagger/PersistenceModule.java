@@ -1,6 +1,5 @@
 package knab.com.smaug.dagger;
 
-import android.app.Application;
 import android.bluetooth.BluetoothAdapter;
 
 import javax.inject.Singleton;
@@ -22,5 +21,6 @@ public class PersistenceModule {
     public BluetoothFacade provideBluetoothFacade(){
         return new BluetoothFacade(bluetoothAdapter.getDefaultAdapter());
     }
+
 
 }
