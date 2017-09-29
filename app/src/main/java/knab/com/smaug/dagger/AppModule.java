@@ -6,6 +6,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import knab.com.smaug.SchedulerHolders;
 import knab.com.smaug.SmaugApplication;
 import knab.com.smaug.transmition.connection_service.BluetoothConnectionService;
 
@@ -39,5 +40,7 @@ public class AppModule {
         return new DependencyInjector();
     }
 
-
+    @Provides
+    @Singleton
+    public SchedulerHolders providesSchedulerHolders(){ return new SchedulerHolders(); }
 }

@@ -2,7 +2,8 @@ package knab.com.smaug.transmition.connection_service;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
+import android.content.Context;
+import android.content.Intent;
 
 /**
  * Created by hp on 2017-09-14.
@@ -10,17 +11,16 @@ import android.bluetooth.BluetoothSocket;
 
 public class BluetoothConnectionService {
 
-    private BluetoothDevice pairedDevice;
     private BluetoothAdapter bluetoothAdapter;
     private ConnectionAcceptanceThread acceptanceThread;
     private ConnectionAttemptThread attemptThread;
     private TransmitionThread transmitionThread;
 
-    public BluetoothConnectionService(BluetoothAdapter bluetoothAdapter, BluetoothDevice pairedDevice){
+    public void init(BluetoothAdapter bluetoothAdapter){
         this.bluetoothAdapter = bluetoothAdapter;
-        this.pairedDevice = pairedDevice;
         start();
     }
+
     private synchronized void start(){
 
         if(attemptThread != null){
@@ -33,17 +33,26 @@ public class BluetoothConnectionService {
             acceptanceThread.start();
         }
     }
-    public void attemptConnection(){
-        attemptThread = new ConnectionAttemptThread(pairedDevice);
+
+    public boolean attemptConnection(BluetoothDevice pairedDevice, Context context){
+        attemptThread = new ConnectionAttemptThread(pairedDevice, context);
         attemptThread.start();
+        waitForConnection();
+        return true;
     }
 
-    public void devicesConnected(BluetoothSocket bluetoothSocket){
-        transmitionThread = new TransmitionThread(bluetoothSocket);
+    private void waitForConnection() {
+        while (( this.transmitionThread = attemptThread.getTransmitionThread()) == null) {}
     }
 
     public void write(byte[] out){
-        transmitionThread.write(out);
+        this.transmitionThread.write(out);
     }
 
+    public boolean close(){
+        acceptanceThread.cancel();
+        attemptThread.cancel();
+        transmitionThread.cancel();
+        return true;
+    }
 }

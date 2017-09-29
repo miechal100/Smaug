@@ -2,6 +2,7 @@ package knab.com.smaug.transmition.dagger;
 
 import dagger.Module;
 import dagger.Provides;
+import knab.com.smaug.SchedulerHolders;
 import knab.com.smaug.dagger.ActivityScope;
 import knab.com.smaug.transmition.mvp.TModel;
 import knab.com.smaug.transmition.mvp.TPresenter;
@@ -20,7 +21,7 @@ public class TransmitionModule {
 
     @Provides
     @ActivityScope
-    public TPresenter provideTPresenter(TModel model){
-        return new TPresenter(view, model);
+    public TPresenter provideTPresenter(TModel model, SchedulerHolders schedulerHolders){
+        return new TPresenter(view, model, schedulerHolders);
     }
 }

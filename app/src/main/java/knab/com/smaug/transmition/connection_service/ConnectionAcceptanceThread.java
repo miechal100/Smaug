@@ -3,6 +3,7 @@ package knab.com.smaug.transmition.connection_service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -12,6 +13,7 @@ import java.util.UUID;
  */
 
 class ConnectionAcceptanceThread extends Thread {
+    private static final String TAG = "Acceptance thread";
 
     private static final String APP_NAME = "Smaug";
     private static final UUID MY_UUID_INSECURE =
@@ -24,8 +26,9 @@ class ConnectionAcceptanceThread extends Thread {
         try {
             tmpServerSocket = bluetoothAdapter
                     .listenUsingInsecureRfcommWithServiceRecord(APP_NAME, MY_UUID_INSECURE);
+            Log.d(TAG, "AcceptThread: Setting up Server using: " + MY_UUID_INSECURE);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "AcceptThread: IOException: " + e.getMessage() );
         }
 
         serverSocket = tmpServerSocket;
@@ -33,25 +36,35 @@ class ConnectionAcceptanceThread extends Thread {
 
     @Override
     public void run(){
+        Log.d(TAG, "run: AcceptThread Running.");
         BluetoothSocket bluetoothSocket = null;
 
         try {
+            Log.d(TAG, "run: RFCOM server socket start.....");
             bluetoothSocket = serverSocket.accept();
+
+            Log.d(TAG, "run: RFCOM server socket accepted connection.");
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "AcceptThread: IOException: " + e.getMessage() );
         }
 
         if(bluetoothSocket != null){
-
+            devicesConnected(bluetoothSocket);
         }
+        Log.i(TAG, "END mAcceptThread ");
     }
 
     public void cancel(){
+        Log.d(TAG, "cancel: Canceling AcceptThread.");
         try {
             serverSocket.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "cancel: Close of AcceptThread ServerSocket failed. " + e.getMessage() );
         }
     }
 
+    public void devicesConnected(BluetoothSocket bluetoothSocket){
+        TransmitionThread transmitionThread = new TransmitionThread(bluetoothSocket, null);
+        transmitionThread.start();
+    }
 }
