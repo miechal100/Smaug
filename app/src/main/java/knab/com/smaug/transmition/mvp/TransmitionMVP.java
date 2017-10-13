@@ -1,8 +1,8 @@
 package knab.com.smaug.transmition.mvp;
 
 import android.bluetooth.BluetoothDevice;
-import android.content.Context;
-import android.content.Intent;
+
+import io.reactivex.Observable;
 
 /**
  * Created by hp on 2017-09-08.
@@ -18,15 +18,17 @@ public interface TransmitionMVP {
 
     interface Presenter{
         void initConnectionListener();
-        void connect(BluetoothDevice pairedDevice, Context context);
+        void connect(BluetoothDevice pairedDevice);
         void sendMessage(String message);
+        void startReading();
         void closeConnection();
     }
 
     interface Model{
         boolean startConnectionService();
-        boolean attemptConnection(BluetoothDevice pairedDevice, Context context);
+        boolean attemptConnection(BluetoothDevice pairedDevice);
         boolean sendByConnectionService(String message);
+        Observable<String> readFromConnectionService();
         boolean cancelConnectionService();
     }
 }

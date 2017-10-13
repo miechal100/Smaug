@@ -71,13 +71,14 @@ public class StartActivity extends AppCompatActivity implements BluetoothMVP.Vie
 
         BluetoothDevice device = bluetoothDevicesList.get(position);
 
-            if(!device.createBond());
-            startNextActivity(device);
-
-       // else{
-         //   Log.d(TAG, "Błąd - sprawdź swoje urządzenie bluetooth HC-05");
-          //  this.finish();
-        //}
+            if(device.getName() != "HC-05"){
+                if(!device.createBond())
+                startNextActivity(device);
+            }
+            else{
+                Log.d(TAG, "Błąd - sprawdź swoje urządzenie bluetooth HC-05");
+                this.finish();
+            }
 
         IntentFilter pairingDevicesIntent = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
         registerReceiver(presenter.bondingDevicesReceiver, pairingDevicesIntent);

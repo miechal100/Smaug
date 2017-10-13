@@ -13,28 +13,53 @@
     tools:context="knab.com.smaug.transmition.ui.TransmitionActivity"
     tools:showIn="@layout/activity_transmition2">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="START CONNECTION"
+        android:id="@+id/startConnectionButton"/>/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:text="SMAUG"
+        android:id="@+id/smaugTextView"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
         android:id="@+id/messageEditText"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
         android:text="SEND"
         android:id="@+id/sendButton"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:text="START READING"
+        android:id="@+id/readButton"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
         android:textSize="30dp"
-        android:text="Potencjał Smoka..." />
+        android:text="Potencjał Smoka..."
+        android:id="@+id/potentialTextView"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16dp"
         android:layout_marginTop="30dp"
+        android:visibility="invisible"
         android:id="@+id/messageTextView"/>
 
 </LinearLayout>

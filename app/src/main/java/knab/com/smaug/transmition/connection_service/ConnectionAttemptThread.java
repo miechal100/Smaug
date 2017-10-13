@@ -21,12 +21,10 @@ class ConnectionAttemptThread extends Thread {
     private BluetoothDevice pairedDevice;
     private BluetoothSocket bluetoothSocket;
     private TransmitionThread transmitionThread;
-    private Context context;
 
-    public ConnectionAttemptThread(BluetoothDevice pairedDevice, Context context){
+    public ConnectionAttemptThread(BluetoothDevice pairedDevice){
         Log.d(TAG, "ConnectThread: started.");
         this.pairedDevice = pairedDevice;
-        this.context = context;
     }
 
     public void run () {
@@ -67,7 +65,7 @@ class ConnectionAttemptThread extends Thread {
         }
     }
     public void devicesConnected(BluetoothSocket bluetoothSocket){
-        this.transmitionThread = new TransmitionThread(bluetoothSocket, context);
+        this.transmitionThread = new TransmitionThread(bluetoothSocket);
         transmitionThread.start();
     }
 

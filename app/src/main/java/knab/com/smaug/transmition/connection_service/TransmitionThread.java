@@ -10,6 +10,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Timed;
 
 /**
  * Created by hp on 2017-09-16.
@@ -21,13 +25,13 @@ class TransmitionThread extends Thread {
     private BluetoothSocket bluetoothSocket;
     private InputStream inputStream;
     private OutputStream outputStream;
-    private Intent messageIntent;
-    private LocalBroadcastManager localBroadcastManager;
+    private Observable<String> messageObservable;
+    private String string = "";
 
-    public TransmitionThread(BluetoothSocket bluetoothSocket, Context context){
+    TransmitionThread(BluetoothSocket bluetoothSocket){
         Log.d(TAG, "ConnectedThread: Starting.");
         this.bluetoothSocket = bluetoothSocket;
-        localBroadcastManager = LocalBroadcastManager.getInstance(context);
+
         InputStream tmpInputStream = null;
         OutputStream tmpOutputStream = null;
 
@@ -52,10 +56,13 @@ class TransmitionThread extends Thread {
             try {
                 bytes = this.inputStream.read(buffer);
                 String incomingMessage = new String(buffer, 0, bytes);
-                this.messageIntent = new Intent("message");
-                this.messageIntent.putExtra("message", incomingMessage);
-                localBroadcastManager.sendBroadcast(messageIntent);
-                Log.d(TAG, "InputStream: " + incomingMessage);
+                string = string + incomingMessage;
+                if(string.contains(".")){
+                    this.messageObservable = Observable.just(string);
+                    Log.d(TAG, "InputStream: " + string);
+                    string = "";
+                }
+
             } catch (IOException e) {
                 Log.e(TAG, "write: Error reading Input Stream. " + e.getMessage() );
                 break;
@@ -63,7 +70,7 @@ class TransmitionThread extends Thread {
         }
     }
 
-    public void cancel(){
+    void cancel(){
         try {
             this.bluetoothSocket.close();
         } catch (IOException e) {
@@ -71,7 +78,7 @@ class TransmitionThread extends Thread {
         }
     }
 
-    public void write(byte[] out){
+    void write(byte[] out){
         String message = new String(out, Charset.defaultCharset());
         Log.d(TAG, "write: Writing to outputstream: " + message);
         try {
@@ -80,4 +87,6 @@ class TransmitionThread extends Thread {
             Log.e(TAG, "write: Error writing to output stream. " + e.getMessage() );
         }
     }
+
+    Observable<String> getMessageObservable(){ return this.messageObservable; }
 }

@@ -5,6 +5,8 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 
+import io.reactivex.Observable;
+
 /**
  * Created by hp on 2017-09-14.
  */
@@ -34,8 +36,8 @@ public class BluetoothConnectionService {
         }
     }
 
-    public boolean attemptConnection(BluetoothDevice pairedDevice, Context context){
-        attemptThread = new ConnectionAttemptThread(pairedDevice, context);
+    public boolean attemptConnection(BluetoothDevice pairedDevice){
+        attemptThread = new ConnectionAttemptThread(pairedDevice);
         attemptThread.start();
         waitForConnection();
         return true;
@@ -47,6 +49,10 @@ public class BluetoothConnectionService {
 
     public void write(byte[] out){
         this.transmitionThread.write(out);
+    }
+
+    public Observable<String> read(){
+        return transmitionThread.getMessageObservable();
     }
 
     public boolean close(){

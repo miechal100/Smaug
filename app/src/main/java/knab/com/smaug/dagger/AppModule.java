@@ -2,10 +2,14 @@ package knab.com.smaug.dagger;
 
 import android.app.Application;
 
+import java.util.concurrent.Executors;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import knab.com.smaug.SchedulerHolders;
 import knab.com.smaug.SmaugApplication;
 import knab.com.smaug.transmition.connection_service.BluetoothConnectionService;
@@ -42,5 +46,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    public SchedulerHolders providesSchedulerHolders(){ return new SchedulerHolders(); }
+    public SchedulerHolders providesSchedulerHolders() {
+        return new SchedulerHolders(AndroidSchedulers.mainThread(), Schedulers.from(Executors.newFixedThreadPool(4)));
+    }
 }

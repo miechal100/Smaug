@@ -5,9 +5,9 @@ import android.app.Application;
 import javax.inject.Inject;
 
 import knab.com.smaug.dagger.AppModule;
+import knab.com.smaug.dagger.BluetoothModule;
 import knab.com.smaug.dagger.DaggerSmaugComponent;
 import knab.com.smaug.dagger.DependencyInjector;
-import knab.com.smaug.dagger.PersistenceModule;
 import knab.com.smaug.dagger.SmaugComponent;
 
 /**
@@ -26,7 +26,7 @@ public class SmaugApplication extends Application{
         super.onCreate();
         component = DaggerSmaugComponent.builder()
                 .appModule(new AppModule(this))
-                .persistenceModule(new PersistenceModule())
+                .bluetoothModule(new BluetoothModule())
                 .build();
         component.inject(this);
     }

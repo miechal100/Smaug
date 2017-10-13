@@ -20,7 +20,7 @@ class ConnectionAcceptanceThread extends Thread {
             UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
     private BluetoothServerSocket serverSocket;
 
-    public ConnectionAcceptanceThread(BluetoothAdapter bluetoothAdapter){
+    ConnectionAcceptanceThread(BluetoothAdapter bluetoothAdapter){
         BluetoothServerSocket tmpServerSocket = null;
 
         try {
@@ -54,7 +54,7 @@ class ConnectionAcceptanceThread extends Thread {
         Log.i(TAG, "END mAcceptThread ");
     }
 
-    public void cancel(){
+    void cancel(){
         Log.d(TAG, "cancel: Canceling AcceptThread.");
         try {
             serverSocket.close();
@@ -63,8 +63,8 @@ class ConnectionAcceptanceThread extends Thread {
         }
     }
 
-    public void devicesConnected(BluetoothSocket bluetoothSocket){
-        TransmitionThread transmitionThread = new TransmitionThread(bluetoothSocket, null);
+    void devicesConnected(BluetoothSocket bluetoothSocket){
+        TransmitionThread transmitionThread = new TransmitionThread(bluetoothSocket);
         transmitionThread.start();
     }
 }

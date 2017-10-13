@@ -1,8 +1,6 @@
 package knab.com.smaug.transmition.mvp;
 
 import android.bluetooth.BluetoothDevice;
-import android.content.Context;
-import android.content.Intent;
 
 import java.nio.charset.Charset;
 
@@ -38,8 +36,8 @@ public class TModel implements TransmitionMVP.Model {
     }
 
     @Override
-    public boolean attemptConnection(BluetoothDevice pairedDevice, Context context) {
-        if(bluetoothConnectionService.attemptConnection(pairedDevice, context))
+    public boolean attemptConnection(BluetoothDevice pairedDevice) {
+        if(bluetoothConnectionService.attemptConnection(pairedDevice))
             return true;
         return false;
     }
@@ -49,6 +47,11 @@ public class TModel implements TransmitionMVP.Model {
         byte[] out = message.getBytes(Charset.defaultCharset());
         bluetoothConnectionService.write(out);
         return true;
+    }
+
+    @Override
+    public Observable<String> readFromConnectionService() {
+        return bluetoothConnectionService.read();
     }
 
     @Override
