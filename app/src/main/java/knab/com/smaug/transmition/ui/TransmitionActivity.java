@@ -60,6 +60,7 @@ public class TransmitionActivity extends AppCompatActivity implements Transmitio
         sendButton.setOnClickListener(v -> send());
         readButton.setOnClickListener(v -> read());
         startConnectionButton.setOnClickListener(v -> init(pairedDevice));
+
     }
 
     @Override
@@ -118,10 +119,8 @@ public class TransmitionActivity extends AppCompatActivity implements Transmitio
             i=0;
         }
 
-        messageTextView.setText(this.message.append("Lokalizacja: Warszawa\n" + DateUtils.now()
-                        + "\nWartość Smogu: " + message + "mg/m3\n"));
+        messageTextView.setText("Lokalizacja: Warszawa\n" + DateUtils.now()
+                        + "\nWartość Smogu: " + message + "ug/m3\n");
 
-        if(message.contains("100"))
-            messageTextView.setText(this.message.append("XD\n"));
     }
 }

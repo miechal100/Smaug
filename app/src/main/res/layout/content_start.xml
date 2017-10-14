@@ -5,29 +5,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="30dp"
-    android:paddingRight="30dp"
-    android:paddingTop="24dp"
-    android:paddingBottom="24dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="knab.com.smaug.bluetooth.ui.StartActivity"
-    tools:showIn="@layout/activity_start">
+    tools:showIn="@layout/activity_start"
+    android:background="@drawable/smok_start">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp"
         android:text="SMAUG"
         android:textSize="30dp"
         android:textAlignment="center"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp"
         android:layout_gravity="center"
         android:text="Bluetooth ON/OFF"
         android:id="@+id/btOnOff"/>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp"
         android:layout_gravity="center"
         android:text="Discover devices"
         android:id="@+id/btDiscover"/>
@@ -35,6 +46,10 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp"
         android:id="@+id/lvNewDevices"/>
 
 </LinearLayout>
