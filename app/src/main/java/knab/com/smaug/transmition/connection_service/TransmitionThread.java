@@ -49,7 +49,7 @@ class TransmitionThread extends Thread {
 
     @Override
     public void run() {
-        byte[] buffer = new byte[24];
+        byte[] buffer = new byte[4];
         int bytes;
 
         while (true) {
