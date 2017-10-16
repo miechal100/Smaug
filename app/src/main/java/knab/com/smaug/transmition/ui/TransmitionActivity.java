@@ -82,6 +82,9 @@ public class TransmitionActivity extends AppCompatActivity implements Transmitio
         presenter.startReading();
     }
 
+    @Override
+    public void secondReading() { presenter.startReading(); }
+
     private void init(BluetoothDevice pairedDevice) {
         presenter.initConnectionListener();
         presenter.connect(pairedDevice);
@@ -120,7 +123,7 @@ public class TransmitionActivity extends AppCompatActivity implements Transmitio
         }
 
         messageTextView.setText("Lokalizacja: Warszawa\n" + DateUtils.now()
-                        + "\nWartość Smogu: " + message + "ug/m3\n");
+                        + "\nWartość: " + message + "μg/m3\n");
 
     }
 }

@@ -12,6 +12,7 @@ public interface TransmitionMVP {
 
     interface View{
         void handleError(String message);
+        void secondReading();
         void onSuccessfulConnection();
         void showMessage(String message);
     }

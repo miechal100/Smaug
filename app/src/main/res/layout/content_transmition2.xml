@@ -8,8 +8,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="knab.com.smaug.transmition.ui.TransmitionActivity"
     tools:showIn="@layout/activity_transmition2"
-    android:background="@drawable/smok"
-    >
+    android:background="@drawable/smok">
 
     <Button
         android:layout_width="wrap_content"
@@ -19,17 +18,20 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:text="START CONNECTION"
-        android:id="@+id/startConnectionButton"/>/>
+        android:id="@+id/startConnectionButton"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="10dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp"
         android:visibility="invisible"
         android:text="SMAUG"
-        android:id="@+id/smaugTextView"/>
+        android:textSize="30dp"
+        android:textAlignment="center"
+        android:id="@+id/smaugTextView"/>/>
 
     <EditText
         android:layout_width="match_parent"
@@ -68,7 +70,7 @@
         android:layout_marginTop="10dp"
         android:visibility="invisible"
         android:textSize="20dp"
-        android:text="POZIOM ZANIECZYSZCZEŃ [ug/m3]"
+        android:text="POZIOM ZANIECZYSZCZEŃ [μg/m3]"
         android:id="@+id/potentialTextView"/>
 
     <TextView

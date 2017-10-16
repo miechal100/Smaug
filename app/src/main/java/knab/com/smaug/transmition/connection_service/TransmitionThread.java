@@ -58,7 +58,9 @@ class TransmitionThread extends Thread {
                 String incomingMessage = new String(buffer, 0, bytes);
                 string = string + incomingMessage;
                 if(string.contains(".")){
-                    this.messageObservable = Observable.just(string);
+                    this.messageObservable = Observable.zip(Observable.just(string),
+                            Observable.interval(3000, TimeUnit.MILLISECONDS),
+                            (obs, timer) -> obs);
                     Log.d(TAG, "InputStream: " + string);
                     string = "";
                 }

@@ -70,6 +70,7 @@ public class TPresenter implements TransmitionMVP.Presenter, ClearingDisposables
 
                         @Override
                         public void onComplete() {
+                            view.secondReading();
                             Log.d(TAG, "Observer: onComplete called.");
                         }
                     }));
